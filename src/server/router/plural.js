@@ -102,7 +102,7 @@ module.exports = (db, name, opts) => {
         if (_ids.indexOf(obj['id'].toString()) === -1) {
           return false
         }
-        return true;
+        return true
       })
     }
 
