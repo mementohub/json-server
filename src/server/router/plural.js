@@ -55,6 +55,8 @@ module.exports = (db, name, opts) => {
     // Remove q, _start, _end, ... from req.query to avoid filtering using those
     // parameters
     let q = req.query.q
+    let _fields = req.query._fields
+    let _ids = req.query._ids
     let _start = req.query._start
     let _end = req.query._end
     let _page = req.query._page
@@ -64,6 +66,8 @@ module.exports = (db, name, opts) => {
     let _embed = req.query._embed
     let _expand = req.query._expand
     delete req.query.q
+    delete req.query._fields
+    delete req.query._ids
     delete req.query._start
     delete req.query._end
     delete req.query._sort
@@ -91,6 +95,17 @@ module.exports = (db, name, opts) => {
       delete req.query[query]
     })
 
+    // filtering ids
+    if (_ids) {
+      _ids = _ids.split(',')
+      chain = chain.filter(obj => {
+        if (_ids.indexOf(obj['id'].toString()) === -1) {
+          return false
+        }
+        return true;
+      })
+    }
+
     if (q) {
       // Full-text search
       if (Array.isArray(q)) {
@@ -101,6 +116,10 @@ module.exports = (db, name, opts) => {
 
       chain = chain.filter(obj => {
         for (let key in obj) {
+          if (_fields && _fields.indexOf(key) === -1) {
+            // ignore this field
+            continue
+          }
           const value = obj[key]
           if (db._.deepQuery(value, q)) {
             return true
