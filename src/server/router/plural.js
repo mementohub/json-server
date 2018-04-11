@@ -113,6 +113,9 @@ module.exports = (db, name, opts) => {
       }
 
       q = q.toLowerCase()
+      if (_fields) {
+        _fields = _fields.split(',')
+      }
 
       chain = chain.filter(obj => {
         for (let key in obj) {
