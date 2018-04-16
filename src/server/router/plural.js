@@ -115,20 +115,37 @@ module.exports = (db, name, opts) => {
       q = q.toLowerCase()
       if (_fields) {
         _fields = _fields.split(',')
+      } else {
+        _fields = []
       }
 
-      chain = chain.filter(obj => {
-        for (let key in obj) {
-          if (_fields && _fields.indexOf(key) === -1) {
-            // ignore this field
-            continue
+      if (_fields.length === 0) {
+        // search through all
+        chain = chain.filter(obj => {
+          for (let key in obj) {
+            const value = obj[key]
+            if (db._.deepQuery(value, q)) {
+              return true
+            }
           }
-          const value = obj[key]
-          if (db._.deepQuery(value, q)) {
-            return true
+        })
+      } else {
+        // search only through provided fields
+        chain = chain.filter(element => {
+          for (let i in _fields) {
+            var path = _fields[i]
+            var elementValue = _.get(element, path)
+
+            if (typeof elementValue === 'undefined') {
+              continue
+            }
+            if (new RegExp(q, 'i').test(elementValue.toString())) {
+              return true
+            }
           }
-        }
-      })
+          return false
+        })
+      }
     }
 
     Object.keys(req.query).forEach(key => {
