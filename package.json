@@ -1,7 +1,7 @@
 {
-  "name": "json-server",
+  "name": "imemento-json-server",
   "version": "0.12.1",
-  "description": "Serves JSON files through REST routes.",
+  "description": "Serves JSON files through REST routes. - a fork from Typicode",
   "main": "./lib/server/index.js",
   "bin": "./bin/index.js",
   "directories": {
@@ -72,7 +72,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/typicode/json-server.git"
+    "url": "git@github.com:mementohub/json-server.git"
   },
   "keywords": [
     "JSON",
@@ -90,12 +90,12 @@
     "dummy",
     "sandbox"
   ],
-  "author": "Typicode <typicode@gmail.com>",
+  "author": "Bogdan Cismariu <bogdan.cismariu@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/typicode/json-server/issues"
+    "url": "https://github.com/mementohub/json-server/issues"
   },
-  "homepage": "https://github.com/typicode/json-server",
+  "homepage": "https://github.com/mementohub/json-server",
   "engines": {
     "node": ">=4"
   }
